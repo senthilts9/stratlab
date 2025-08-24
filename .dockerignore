@@ -1,0 +1,16 @@
+# .dockerignore
+# Ignore Python virtual environments
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Ignore local IDE files
+.vscode/
+*.suo
+*.user
+*.swp
+
+# Ignore OS metadata
+.DS_Store
+Thumbs.db

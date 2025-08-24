@@ -1,0 +1,47 @@
+# Removed version as it's obsolete
+services:
+  redis:
+    image: redis:7-alpine
+  dask-scheduler:
+    image: daskdev/dask:latest
+    command: dask-scheduler
+  dask-worker:
+    image: daskdev/dask:latest
+    command: dask-worker tcp://dask-scheduler:8786 --nthreads 2 --memory-limit 2GB
+    volumes:
+      - shared-data:/shared
+    depends_on:
+      - dask-scheduler
+  celery:
+    build:
+      context: .  # FIXED: Changed from ./stratlab to .
+      dockerfile: Dockerfile
+    command: celery -A backend.tasks worker --concurrency=4 --loglevel=info
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      - shared-data:/shared
+      - .:/app  # ADDED: Mount current directory for live code updates
+    depends_on:
+      - redis
+      - dask-scheduler
+  streamlit:
+    build:
+      context: .  # FIXED: Changed from ./stratlab to .
+      dockerfile: Dockerfile
+    command: streamlit run app/main.py --server.port 8501
+    ports:
+      - "8501:8501"
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      - shared-data:/shared
+      - .:/app  # ADDED: Mount current directory for live code updates
+    depends_on:
+      - redis
+      - celery
+      - dask-scheduler
+volumes:
+  shared-data:
