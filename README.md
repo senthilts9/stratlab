@@ -1,8 +1,8 @@
-# StratLab ⛵
+# StratLab 
 
 A modern financial analytics platform for risk management and factor modeling, built with Python, Streamlit, and distributed computing.
 
-## 🚀 Features
+##  Features
 
 ### Core Analytics
 - **Value at Risk (VaR) Analysis**: Parametric VaR and Expected Shortfall calculations with 99% confidence intervals
@@ -23,7 +23,7 @@ A modern financial analytics platform for risk management and factor modeling, b
 - **Data Validation**: Built-in checks for data quality and consistency
 - **Error Recovery**: Graceful handling of missing or corrupted data
 
-## 🏗️ Architecture
+## 🏗 Architecture
 
 ```
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
